@@ -2,3 +2,22 @@ name: SimpleAtheris
 version: '2.0.0-alpha.2'
 main: live.nerotv.atheris.Main
 api-version: '1.21'
+author: nerotvlive
+authors:
+  - nerotvlive
+
+commands:
+  atheris:
+    aliases: [system,simpleatheris,projectsbase,pba]
+  book:
+  broadcast:
+    aliases: [bc]
+  global:
+    aliases: [g]
+  name:
+    aliases: [char,character]
+  reveal:
+  shout:
+    aliases: [ s ]
+  whisper:
+    aliases: [w]
