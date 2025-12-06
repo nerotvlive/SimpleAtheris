@@ -8,6 +8,12 @@ import live.nerotv.atheris.utilities.storage.types.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
@@ -35,7 +41,15 @@ public final class Main extends JavaPlugin {
     }
 
     private void initConfig() {
-        pluginConfig = new Config("plugins/atheris/config.yml");
+        String configPath = "plugins/atheris/config.yml";
+        if(new File("plugins/atheris/").mkdirs()) {
+            //TODO first run message
+        }
+
+        if(!new File("plugins/atheris/config.yml").exists()) {
+            copyResourceToFile("config.yml", configPath);
+        }
+        pluginConfig = new Config(configPath);
 
         //CHAT CONFIG GENERATION
         pluginConfig.checkEntry("config.general.chat.enable",true);
@@ -96,7 +110,7 @@ public final class Main extends JavaPlugin {
         try {
             String saverPath = "plugins/atheris/saver.";
             if ((boolean) pluginConfig.get("config.system.saver.useYamlStorage")) {
-                saver = new Storage(saverPath + ".yml");
+                saver = new Storage(saverPath + "yml");
             } else {
                 if ((boolean) pluginConfig.get("config.system.saver.mariadb.enable")) {
                     String mariadbHost = (String) pluginConfig.get("config.system.saver.mariadb.host");
@@ -106,7 +120,7 @@ public final class Main extends JavaPlugin {
                     String mariadbPassword = (String) pluginConfig.get("config.system.saver.mariadb.password");
                     saver = new Storage(mariadbHost, mariadbPort, mariadbDatabase, mariadbUsername, mariadbPassword);
                 } else {
-                    saver = new Storage(saverPath + ".db");
+                    saver = new Storage(saverPath + "db");
                 }
             }
             return true;
@@ -141,5 +155,27 @@ public final class Main extends JavaPlugin {
 
     public static Storage getSaver() {
         return saver;
+    }
+
+    public static boolean copyResourceToFile(String resourcePath, String targetPath)  {
+        ClassLoader classLoader = Main.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            return false;
+        }
+        Path target = Paths.get(targetPath);
+        try {
+            Files.createDirectories(target.getParent());
+            Files.copy(
+                    inputStream,
+                    target,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+            inputStream.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

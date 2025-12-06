@@ -1,5 +1,5 @@
 name: SimpleAtheris
-version: '2.0.0-alpha.2'
+version: '2.0.0-alpha.3'
 main: live.nerotv.atheris.Main
 api-version: '1.21'
 author: nerotvlive
