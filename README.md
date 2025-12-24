@@ -1,6 +1,7 @@
 # SimpleAtheris
 SimpleAtheris is a core paper Plugin for Atheris Studios' Minecraft roleplay projects written in Java.<br>
 Authors: [nerotvlive](https://github.com/nerotvlive)
+License: [GNU GPL 3.0](https://github.com/nerotvlive/SimpleAtheris?tab=GPL-3.0-1-ov-file)
 
 > Warning: this plugin is in a very early development stage. Expect many bugs and incomplete features.
 
